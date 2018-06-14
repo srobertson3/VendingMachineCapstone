@@ -8,8 +8,8 @@ namespace Capstone.Classes
 {
 	public abstract class Item
 	{
-		string Name { get; set; }
-		decimal Cost { get; set; }
+		public string Name { get; set; }
+		public decimal Cost { get; set; }
 
 		public Item(string name, decimal cost)
 		{
