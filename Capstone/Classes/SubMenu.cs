@@ -12,6 +12,7 @@ namespace Capstone.Classes
 		{
 
 			User user = new User(new List<Item>());
+			Writer log = new Writer();
 
 			while (true)
 			{
@@ -38,6 +39,8 @@ namespace Capstone.Classes
 						if (money != "N")
 						{
 							decimal feed = decimal.Parse(money);
+							log.Log($"FEED MONEY", machine.Balance, (machine.Balance + feed));
+
 							machine.FeedMoney(feed);
 							Console.WriteLine($"Current Money Provided {machine.Balance}");
 						}
@@ -67,6 +70,7 @@ namespace Capstone.Classes
 						{
 							if (machine.Balance >= machine.Inventory[selection][0].Cost)
 							{
+								log.Log($"{machine.Inventory[selection][0].Name}", machine.Balance, machine.Balance - machine.Inventory[selection][0].Cost);
 								machine.Vend(selection, user);
 							}
 							else
@@ -79,7 +83,22 @@ namespace Capstone.Classes
 					else
 					{
 						Console.WriteLine("Sorry, that product code does not exist!");
+						System.Threading.Thread.Sleep(3000);
 					}
+				}
+				if (input == "3")
+				{
+					Console.Clear();
+					log.Log($"RETURN CHANGE", machine.Balance, 0);
+					Console.WriteLine($"{machine.ReturnChange()}");
+					foreach (var item in user.Cart)
+					{
+						item.MakeSound();
+						System.Threading.Thread.Sleep(1000);
+					}
+					Console.WriteLine("Thank you for snacking with us!");
+					System.Threading.Thread.Sleep(5000);
+
 				}
 			}	
 		}

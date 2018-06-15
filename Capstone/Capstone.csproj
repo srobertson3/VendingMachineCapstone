@@ -53,6 +53,7 @@
     <Compile Include="Classes\SubMenu.cs" />
     <Compile Include="Classes\User.cs" />
     <Compile Include="Classes\VendingMachine.cs" />
+    <Compile Include="Classes\Writer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

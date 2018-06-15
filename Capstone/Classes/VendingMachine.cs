@@ -35,7 +35,15 @@ namespace Capstone.Classes
 
 		public void FeedMoney(decimal amount)
 		{
-			Balance += amount;
+			if (amount < 0 || amount - Math.Floor(amount) > 0)
+			{
+				Console.WriteLine("Sorry, that's not a valid amount!");
+				System.Threading.Thread.Sleep(3000);
+			}
+			else
+			{
+				Balance += amount;
+			}
 		}
 
 		public void Vend(string slot, User user)
@@ -70,7 +78,7 @@ namespace Capstone.Classes
 				}
 			}
 
-			string change = $"{quarters} quarters, {dimes} dimes, and {nickels} nickels.";
+			string change = $"Your change is: {quarters} quarters, {dimes} dimes, and {nickels} nickels.";
 			return change;
 		}
 	}
