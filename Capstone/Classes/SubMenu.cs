@@ -22,19 +22,24 @@ namespace Capstone.Classes
 				Console.WriteLine("(1) Feed Money ");
 				Console.WriteLine("(2) Select Product ");
 				Console.WriteLine("(3) Finish Transaction ");
+				Console.WriteLine();
 				Console.WriteLine($"Current Money Provided {machine.Balance}");
+				Console.WriteLine();
 
 				Console.WriteLine("What would you like to do? ");
 				string input = Console.ReadLine();
 
 				if (input == "1")
 				{
+					Console.WriteLine();
 					Console.WriteLine("Press 'N' when you're finished feeding money.");
 					Console.WriteLine("Please only feed in whole dollar amounts. ");
 					while (true)
 					{
 						Console.WriteLine("How much money would you like to feed in?");
+						Console.Write(">>");
 						string money = Console.ReadLine().ToUpper();
+						Console.WriteLine();
 
 						if (money != "N")
 						{
@@ -54,8 +59,10 @@ namespace Capstone.Classes
 				{
 					Console.Clear();
 					machine.DisplayInventory();
+					Console.WriteLine();
 				
 					Console.WriteLine("What product would you like to purchase?");
+					Console.Write(">>");
 
 					string selection = Console.ReadLine().ToUpper();
 
@@ -93,7 +100,7 @@ namespace Capstone.Classes
 					Console.WriteLine($"{machine.ReturnChange()}");
 					foreach (var item in user.Cart)
 					{
-						item.MakeSound();
+						Console.WriteLine(item.MakeSound());
 						System.Threading.Thread.Sleep(1000);
 					}
 					Console.WriteLine("Thank you for snacking with us!");

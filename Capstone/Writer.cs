@@ -17,8 +17,7 @@ namespace Capstone.Classes
 			{
 				using (StreamWriter sw = new StreamWriter("Log.txt", true)) 
 				{
-					sw.WriteLine($"{DateTime.Now} {action.PadLeft(10)}:   {balance :C}{"".PadLeft(10)}{endingBalance :C}");
-					
+					sw.WriteLine($"{DateTime.Now} {action.PadRight(20)}:   {balance :C}{"".PadLeft(20)}{endingBalance :C}");
 				}
 			}
 			catch (IOException ex)

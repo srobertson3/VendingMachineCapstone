@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Capstone.Classes
 {
-	class CandyItem : Item
+	public class CandyItem : Item
 	{
 		public CandyItem(string name, decimal cost)
 			: base(name, cost)
@@ -14,9 +14,9 @@ namespace Capstone.Classes
 
 		}
 
-		public override void MakeSound()
+		public override string MakeSound()
 		{
-			Console.WriteLine("Munch Munch, Yum!");
+			return "Munch Munch, Yum!";
 		}
 	}
 }

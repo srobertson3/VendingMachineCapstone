@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Capstone.Classes
 {
-	class MainMenu
+	public class MainMenu
 	{
 		public void Display()
 		{

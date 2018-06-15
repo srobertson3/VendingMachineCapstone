@@ -17,7 +17,7 @@ namespace Capstone.Classes
 			Cost = cost;
 		}
 
-		public abstract void MakeSound();
+		public abstract string MakeSound();
 
 	}
 }
