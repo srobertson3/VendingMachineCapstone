@@ -17,8 +17,21 @@ namespace Capstone.Classes
 			while (true)
 			{
 				Console.Clear();
+
+				if (user.Cart.Count > 0)
+				{
+					Console.WriteLine();
+					Console.WriteLine("Items you've purchased: ");
+
+					foreach (var item in user.Cart)
+					{
+						Console.WriteLine(item.Name);
+					}
+				}
+
 				Console.WriteLine();
 				Console.WriteLine("Purchase Menu");
+				Console.WriteLine();
 				Console.WriteLine("(1) Feed Money ");
 				Console.WriteLine("(2) Select Product ");
 				Console.WriteLine("(3) Finish Transaction ");
@@ -31,83 +44,120 @@ namespace Capstone.Classes
 
 				if (input == "1")
 				{
-					Console.WriteLine();
-					Console.WriteLine("Press 'N' when you're finished feeding money.");
-					Console.WriteLine("Please only feed in whole dollar amounts. ");
-					while (true)
-					{
-						Console.WriteLine("How much money would you like to feed in?");
-						Console.Write(">>");
-						string money = Console.ReadLine().ToUpper();
-						Console.WriteLine();
-
-						if (money != "N")
-						{
-							decimal feed = decimal.Parse(money);
-							log.Log($"FEED MONEY", machine.Balance, (machine.Balance + feed));
-
-							machine.FeedMoney(feed);
-							Console.WriteLine($"Current Money Provided {machine.Balance}");
-						}
-						else
-						{
-							break;
-						}
-					}
+					ExecuteOption1(machine, log);
 				}
 				if (input == "2")
 				{
-					Console.Clear();
-					machine.DisplayInventory();
-					Console.WriteLine();
-				
-					Console.WriteLine("What product would you like to purchase?");
-					Console.Write(">>");
-
-					string selection = Console.ReadLine().ToUpper();
-
-					if (machine.Inventory.ContainsKey(selection))
-					{
-						if (machine.Inventory[selection].Count <= 0)
-						{
-							Console.WriteLine("Sorry, that item is SOLD OUT!");
-							System.Threading.Thread.Sleep(3000);
-						}
-						else
-						{
-							if (machine.Balance >= machine.Inventory[selection][0].Cost)
-							{
-								log.Log($"{machine.Inventory[selection][0].Name}", machine.Balance, machine.Balance - machine.Inventory[selection][0].Cost);
-								machine.Vend(selection, user);
-							}
-							else
-							{
-								Console.WriteLine("Sorry, you don't have enough money for that!");
-								System.Threading.Thread.Sleep(3000);
-							}
-						}
-					}
-					else
-					{
-						Console.WriteLine("Sorry, that product code does not exist!");
-						System.Threading.Thread.Sleep(3000);
-					}
+					ExecuteOption2(machine, log, user);
 				}
 				if (input == "3")
 				{
-					Console.Clear();
-					log.Log($"RETURN CHANGE", machine.Balance, 0);
-					Console.WriteLine($"{machine.ReturnChange()}");
-					foreach (var item in user.Cart)
-					{
-						Console.WriteLine(item.MakeSound());
-						System.Threading.Thread.Sleep(1000);
-					}
-					Console.WriteLine("Thank you for snacking with us!");
-					System.Threading.Thread.Sleep(5000);
-
+					ExecuteOption3(machine, log, user);
 				}
-			}	
+			}
+		}
+		/// <summary>
+		/// Displays all items available for purchase
+		/// </summary>
+		/// <param name="machine"></param>
+		/// <param name="log"></param>
+		void ExecuteOption1(VendingMachine machine, Writer log)
+		{
+			Console.WriteLine();
+			Console.WriteLine("Press 'N' when you're finished feeding money.");
+			Console.WriteLine("Please only feed in whole dollar amounts. ");
+			while (true)
+			{
+				Console.WriteLine("How much money would you like to feed in?");
+				Console.Write(">>");
+				string money = Console.ReadLine().ToUpper();
+				Console.WriteLine();
+
+				if (money != "N")
+				{
+					decimal feed = decimal.Parse(money);
+					log.Log($"FEED MONEY", machine.Balance, (machine.Balance + feed));
+
+					machine.FeedMoney(feed);
+					Console.WriteLine($"Current Money Provided {machine.Balance}");
+				}
+				else
+				{
+					break;
+				}
+			}
+
+		}
+
+		/// <summary>
+		/// Allow you to feed in money and make purchases
+		/// </summary>
+		/// <param name="machine"></param>
+		/// <param name="log"></param>
+		/// <param name="user"></param>
+		void ExecuteOption2(VendingMachine machine, Writer log, User user)
+		{
+			Console.Clear();
+			machine.DisplayInventory();
+			Console.WriteLine();
+
+			Console.WriteLine("What product would you like to purchase?");
+			Console.Write(">>");
+
+			string selection = Console.ReadLine().ToUpper();
+
+			if (machine.Inventory.ContainsKey(selection))
+			{
+				if (machine.Inventory[selection].Count <= 0)
+				{
+					Console.WriteLine("Sorry, that item is SOLD OUT!");
+					System.Threading.Thread.Sleep(3000);
+				}
+				else
+				{
+					if (machine.Balance >= machine.Inventory[selection][0].Cost)
+					{
+						log.Log($"{machine.Inventory[selection][0].Name}", machine.Balance, machine.Balance - machine.Inventory[selection][0].Cost);
+						machine.Vend(selection, user);
+					}
+					else
+					{
+						Console.WriteLine("Sorry, you don't have enough money for that!");
+						System.Threading.Thread.Sleep(3000);
+					}
+				}
+			}
+			else
+			{
+				Console.WriteLine("Sorry, that product code does not exist!");
+				System.Threading.Thread.Sleep(3000);
+			}
+		}
+
+		/// <summary>
+		/// Allows you to receive & "eat" your items and get your change
+		/// </summary>
+		/// <param name="machine"></param>
+		/// <param name="log"></param>
+		/// <param name="user"></param>
+		void ExecuteOption3(VendingMachine machine, Writer log, User user)
+		{
+			Console.Clear();
+			Console.WriteLine();
+			log.Log($"RETURN CHANGE", machine.Balance, 0);
+			Console.WriteLine();
+
+			Console.WriteLine($"{machine.ReturnChange()}");
+			Console.WriteLine();
+
+			foreach (var item in user.Cart)
+			{
+				Console.WriteLine(item.MakeSound());
+				System.Threading.Thread.Sleep(1000);
+			}
+			Console.WriteLine();
+			Console.WriteLine("Thank you for snacking with us!");
+			System.Threading.Thread.Sleep(5000);
 		}
 	}
 }

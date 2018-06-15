@@ -21,6 +21,7 @@ namespace Capstone.Classes
 				Console.WriteLine("Main Menu");
 				Console.WriteLine("(1) Display vending machine items");
 				Console.WriteLine("(2) Purchase");
+				Console.WriteLine();
 
 				Console.WriteLine("What would you like to do? ");
 				string input = Console.ReadLine();
