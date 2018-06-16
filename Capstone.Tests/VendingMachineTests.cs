@@ -59,12 +59,14 @@ namespace Capstone.Tests
 		{
 			Dictionary<string, List<Item>> test = new Dictionary<string, List<Item>>();
 			VendingMachine testMachine = new VendingMachine(test);
+			User testUser = new User(new List<Item>());
 			testMachine.FeedMoney(1);
 
 			string testResponse = testMachine.ReturnChange();
 
 			Assert.AreEqual<decimal>(0, testMachine.Balance);
 			Assert.AreEqual<string>("Your change is: 4 quarters, 0 dimes, and 0 nickels.", testResponse);
+			Assert.AreEqual<int>(0, testUser.Cart.Count);
 		}
     }
 }

@@ -8,7 +8,7 @@ namespace Capstone.Classes
 {
 	public class User
 	{
-		public List<Item> Cart { get; set; }
+		public List<Item> Cart { get; private set; }
 
 		public User(List<Item> cart)
 		{
