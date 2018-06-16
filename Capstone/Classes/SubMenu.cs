@@ -155,6 +155,8 @@ namespace Capstone.Classes
 				Console.WriteLine(item.MakeSound());
 				System.Threading.Thread.Sleep(1000);
 			}
+
+			user.Cart.Clear();
 			Console.WriteLine();
 			Console.WriteLine("Thank you for snacking with us!");
 			System.Threading.Thread.Sleep(5000);
