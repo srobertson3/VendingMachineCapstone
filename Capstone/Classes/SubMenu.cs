@@ -57,7 +57,7 @@ namespace Capstone.Classes
 			}
 		}
 		/// <summary>
-		/// Displays all items available for purchase
+		/// Allows you to feed in money
 		/// </summary>
 		/// <param name="machine"></param>
 		/// <param name="log"></param>
@@ -75,11 +75,18 @@ namespace Capstone.Classes
 
 				if (money != "N")
 				{
-					decimal feed = decimal.Parse(money);
-					log.Log($"FEED MONEY", machine.Balance, (machine.Balance + feed));
+					try
+					{
+						decimal feed = decimal.Parse(money);
+						log.Log($"FEED MONEY", machine.Balance, machine.Balance + feed);
 
-					machine.FeedMoney(feed);
-					Console.WriteLine($"Current Money Provided {machine.Balance}");
+						machine.FeedMoney(feed);
+						Console.WriteLine($"Current Money Provided {machine.Balance}");
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine("Sorry, that wasn't a valid choice! Please try something else!");
+					}
 				}
 				else
 				{
@@ -90,7 +97,7 @@ namespace Capstone.Classes
 		}
 
 		/// <summary>
-		/// Allow you to feed in money and make purchases
+		/// Allow you to make purchases
 		/// </summary>
 		/// <param name="machine"></param>
 		/// <param name="log"></param>
