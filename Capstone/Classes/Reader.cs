@@ -17,60 +17,17 @@ namespace Capstone.Classes
 
 			try
 			{
-
 				using (StreamReader sr = new StreamReader(path))
 				{
 					while (!sr.EndOfStream)
 					{
-						string line = sr.ReadLine();
+						string line = sr.ReadLine();                        
 						List<string> lineSplit = new List<string>(line.Split('|'));
 						string key = lineSplit[0];
-						lineSplit.RemoveAt(0);
+                        lineSplit.RemoveAt(0);
+                        List<Item> items = GetItemsFromLine(lineSplit);
 
-						if (lineSplit[2] == "Chip")
-						{
-							List<Item> chipStock = new List<Item>();
-
-							for (int i = 0; i < 5; i++)
-							{
-								ChipItem chips = new ChipItem(lineSplit[0], decimal.Parse(lineSplit[1]));
-								chipStock.Add(chips);
-							}
-							vendingItems.Add(key, chipStock);
-						}
-						else if (lineSplit[2] == "Drink")
-						{
-							List<Item> drinkStock = new List<Item>();
-
-							for (int i = 0; i < 5; i++)
-							{
-								DrinkItem drinks = new DrinkItem(lineSplit[0], decimal.Parse(lineSplit[1]));
-								drinkStock.Add(drinks);
-							}
-							vendingItems.Add(key, drinkStock);
-						}
-						else if (lineSplit[2] == "Gum")
-						{
-							List<Item> gumStock = new List<Item>();
-
-							for (int i = 0; i < 5; i++)
-							{
-								GumItem gum = new GumItem(lineSplit[0], decimal.Parse(lineSplit[1]));
-								gumStock.Add(gum);
-							}
-							vendingItems.Add(key, gumStock);
-						}
-						else
-						{
-							List<Item> candyStock = new List<Item>();
-
-							for (int i = 0; i < 5; i++)
-							{
-								CandyItem candy = new CandyItem(lineSplit[0], decimal.Parse(lineSplit[1]));
-								candyStock.Add(candy);
-							}
-							vendingItems.Add(key, candyStock);
-						}
+                        vendingItems.Add(key, items);                        
 					}
 				}
 			}
@@ -81,6 +38,67 @@ namespace Capstone.Classes
 
 			return vendingItems;
 		}
-	}
+
+        private List<Item> GetItemsFromLine(List<string> lineSplit)
+        {
+            List<Item> items = new List<Item>();
+            const int DefaultQuantity = 5;
+            const int Col_Name = 0;
+            const int Col_Price = 1;
+            const int Col_Type = 2;
+
+            Dictionary<string, Type> productTypes = new Dictionary<string, Type>()
+            {
+                {"Chip", typeof(ChipItem) },
+                {"Drink", typeof(DrinkItem) },
+                {"Gum", typeof(GumItem) },
+                {"Candy", typeof(CandyItem) }
+            };
+
+            Type typeToCreate = productTypes[lineSplit[Col_Type]];
+
+            for (int i = 0; i < DefaultQuantity; i++)
+            {
+                Item item = (Item)Activator.CreateInstance(typeToCreate, lineSplit[Col_Name], decimal.Parse(lineSplit[Col_Price]));
+                items.Add(item);
+            }
+
+            // I don't know of a better way 
+            //if (lineSplit[Col_Type] == "Chip")
+            //{
+            //    for (int i = 0; i < DefaultQuantity; i++)
+            //    {
+            //        ChipItem chips = new ChipItem(lineSplit[Col_Name], decimal.Parse(lineSplit[Col_Price]));
+            //        items.Add(chips);
+            //    }
+            //}
+            //else if (lineSplit[Col_Type] == "Drink")
+            //{
+            //    for (int i = 0; i < DefaultQuantity; i++)
+            //    {
+            //        DrinkItem drinks = new DrinkItem(lineSplit[Col_Name], decimal.Parse(lineSplit[Col_Price]));
+            //        items.Add(drinks);
+            //    }
+            //}
+            //else if (lineSplit[Col_Type] == "Gum")
+            //{
+            //    for (int i = 0; i < DefaultQuantity; i++)
+            //    {
+            //        GumItem gum = new GumItem(lineSplit[Col_Name], decimal.Parse(lineSplit[Col_Price]));
+            //        items.Add(gum);
+            //    }
+            //}
+            //else
+            //{
+            //    for (int i = 0; i < DefaultQuantity; i++)
+            //    {
+            //        CandyItem candy = new CandyItem(lineSplit[Col_Name], decimal.Parse(lineSplit[Col_Price]));
+            //        items.Add(candy);
+            //    }
+            //}
+
+            return items;
+        }
+    }
 }
 

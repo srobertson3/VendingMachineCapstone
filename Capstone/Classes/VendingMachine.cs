@@ -8,7 +8,7 @@ namespace Capstone.Classes
 {
 	public class VendingMachine
 	{
-		public Dictionary<string, List<Item>> Inventory { get; set; }
+		public Dictionary<string, List<Item>> Inventory { get; private set; }
 
 		public decimal Balance { get; private set; }
 

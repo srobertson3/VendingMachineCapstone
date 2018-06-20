@@ -45,17 +45,16 @@ namespace Capstone.Classes
 				Console.WriteLine(">>");
 				string input = Console.ReadLine();
 
-				if (input == "1")
-				{
-					Console.Clear();
-					machine.DisplayInventory();
-				}
-				else if (input == "2")
-				{
-					SubMenu submenu = new SubMenu();
-					submenu.Display(machine);
-
-				}
+                if (input == "1")
+                {
+                    Console.Clear();
+                    machine.DisplayInventory();
+                }
+                else if (input == "2")
+                {
+                    SubMenu submenu = new SubMenu();
+                    submenu.Display(machine);
+                }                
 			}
 		}
 	}
